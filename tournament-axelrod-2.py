@@ -1,3 +1,6 @@
+"""
+    re-run Axelrod's second tournament, saving results to a .csv file.
+"""
 from datetime import datetime
 
 import pandas as pd

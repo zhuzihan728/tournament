@@ -1,3 +1,7 @@
+"""
+    run tournament with all rule-based agents and stochastic agents.
+    stoc2 agents play (C, C)/(C, D)/(D, C)/(D, D) with certain probabilities.
+"""
 import itertools
 from datetime import datetime
 

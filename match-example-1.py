@@ -1,3 +1,7 @@
+"""
+    a match example between TidemanAndChieruzzi and RandomAgent
+"""
+
 from tournament.agents.axelrod_first import TidemanAndChieruzzi
 from tournament.agents.random import RandomAgent
 from tournament.agents.tft import TitForTat

@@ -1,3 +1,15 @@
+"""
+    grid search for high/low performing agents 
+    trained by Tabular model
+    
+    lookback: how manyhistories the agent can see
+    epsilon: the exploration rate
+    epsilon_decay: the decay applied to the exploration rate
+    decay_limit: the minimal exploration rate
+    learning_rate: lr
+    discount_rate: the gamma, how much a Q-agent discounts future reward.
+"""
+
 import itertools
 from datetime import datetime
 from json import dumps
@@ -109,7 +121,7 @@ def main():
                 f"SCORE={results[-1]['tn_mean_score']}",
                 sep="\t",
             )
-            if result["tn_mean_score"] > 750 or result["tn_rank"] > 26:
+            if result["tn_mean_score"] > 750 or result["tn_rank"] > 26:# if result is very good, or very bad, save the model as .npz by numpy, and as .txt
                 np.savez_compressed(
                     f"models/tabular/{d} - {i} - {result['tn_mean_score']} - {result['tn_rank']}.npz",
                     q_table=agent._q_table,

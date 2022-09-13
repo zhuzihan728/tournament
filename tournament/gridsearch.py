@@ -8,6 +8,16 @@ from tournament.tournament import RoundRobinTournament
 
 
 def train_and_evaluate(agents, cls, epochs=5000, tournament_agents=AGENTS, **kwargs):
+    """_summary_
+
+    Args:
+        agents (list[]): the rule based agents to train against
+        epochs (int, optional): how many epoch to use. Defaults to 5000.
+        tournament_agents (_type_, optional): the agents to play with in the tournament (for score). Defaults to AGENTS.
+
+    Returns:
+        _type_: _description_
+    """
     env = MultipleRuleBasedAgentEnvironment(agents, silent=True)
     agent = cls(**kwargs)
     env.train(

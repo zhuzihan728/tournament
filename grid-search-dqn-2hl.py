@@ -1,3 +1,16 @@
+"""
+    grid search for high/low performing agents 
+    trained by DQN 2 hidden layer model
+    
+    lookback: number of historical movements
+    n1: 1st hidden layer unit number
+    n2: 2nd hidden layer unit number
+    epsilon: 
+    epsilon_decay
+    learning_rate
+    discount_rate
+"""
+
 import itertools
 from datetime import datetime
 from json import dumps

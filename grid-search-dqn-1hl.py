@@ -1,3 +1,15 @@
+"""
+    grid search for high/low performing agents 
+    trained by DQN 1 hidden layer model
+    
+    lookback: number of historical movements
+    n1: hidden layer unit number
+    epsilon: 
+    epsilon_decay
+    learning_rate
+    discount_rate
+"""
+
 import itertools
 from datetime import datetime
 from json import dumps
@@ -110,7 +122,7 @@ def main():
     d = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
     results = []
     try:
-        space = list(itertools.product(*grid.values()))
+        space = list(itertools.product(*grid.values())) # list of all cartesian product tuples of the hyper-parameters
         size = len(space)
         for i, hyperparameters in enumerate(space):
             print(
@@ -130,8 +142,8 @@ def main():
                 f"SCORE={results[-1]['tn_mean_score']}",
                 sep="\t",
             )
-            if result["tn_mean_score"] > 750 or result["tn_rank"] > 27:
-                torch.save(
+            if result["tn_mean_score"] > 750 or result["tn_rank"] > 27:   # if result is very good, or very bad, save the model as .pt, and as .txt
+                torch.save( 
                     agent._q_network.state_dict(),
                     f"models/dqn/{d} - 1hl - {i} - {result['tn_mean_score']} - {result['tn_rank']}.pt",
                 )
@@ -141,11 +153,11 @@ def main():
                 ) as f:
                     f.write(dumps(result))
     except Exception as e:
-        print("Qutting evaluation early:", str(e))
+        print("Quitting evaluation early:", str(e))
     except:
         print("Quitting evaluation early")
 
-    if results:
+    if results:                                 # save the results to a spread sheet for future comparation
         df = pd.DataFrame(results)
         df["agents"] = ",".join([a.__name__ for a in agents])
         df.to_csv(f"results/dqn/dqn-1hl-{d}.csv")

@@ -1,3 +1,7 @@
+""" 
+    run tournament with all the rule-based agents implemented and print the results out.
+"""
+
 from tournament.agents.agents import AGENTS
 from tournament.tournament import RoundRobinTournament
 

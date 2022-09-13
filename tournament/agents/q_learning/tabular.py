@@ -51,10 +51,13 @@ class TabularQLearner(TrainableAgent):
 
     def get_initial_state(self):
         """Returns a cooperative initial state."""
-
+        
         return tuple(0 for _ in range(self._lookback))
 
     def setup(self) -> None:
+        """
+            initialize a Q-table of (4^lookback*2), set the initial values to 0.
+        """
         self._q_table = np.zeros(shape=tuple(4 for _ in range(self._lookback)) + (2,))
 
     def on_match_start(self):
@@ -83,7 +86,20 @@ class TabularQLearner(TrainableAgent):
         Returns:
             Action: The action to be performed.
         """
+        
+        '''
+        The state of an agent is the history it can see.
+        We encode the match history of each lookback as my_move<<1 + oppo_mov, i.e.,
+        CC   0+0 = 0
+        CD   0+1 = 1
+        DC 1*2+0 = 2
+        DD 1*2+1 = 3
+        
+        the state keeps the matching histories of all the lookbacks.
+        for n lookbacks. the state is a tuple of length n, each elements is a history record. ordered by time.
+        '''
 
+        # update state
         self._prev_state = self._state
         if history:
             self._state = self._prev_state[1:] + (
@@ -98,7 +114,18 @@ class TabularQLearner(TrainableAgent):
         if random() < self._epsilon:
             return random_action()
 
+        '''
+        The Q table is of shape 4^n * 2, n is the number of lookback
+        
+        4^n reps all combinations of histories of length n.
+        2 reps 0 for C or 1 for D. Q-value indicates the value of C and D.
+        
+        For example, q-table[1][2][3][0][0] will gives the q-value of C at the state where the histories are CD, DC, DD, and CC.
+        '''
+        
         # perform the action associated with the highest Q-value for the current state
+        # note the decision is made based on prev state, so the reward gained for the action is also associated with the prev state.
+        
         if self._q_table[self._prev_state][0] >= self._q_table[self._prev_state][1]:
             return Action.COOPERATE
 
@@ -117,9 +144,15 @@ class TabularQLearner(TrainableAgent):
             scores (Tuple[float, float]): The scores of the agent and opponent
             rewards (Tuple[float, float]): The rewards from the actions just performed
         """
-
         move = moves[0].value
-
+        
+        '''
+        update the last state by using Q learning algo
+        Q(t) +=  lr * (r_t + y*max(Q(t+1)) - Q(t))
+        where t reps a tuple (s_t, a_t), lr the learning rate, r_t the reward from prev action, y the gamma (exploration rate).
+        
+        '''
+        
         self._q_table[self._prev_state][move] += self._learning_rate * (
             rewards[0]
             + self._discount_rate * self._q_table[self._state].max()

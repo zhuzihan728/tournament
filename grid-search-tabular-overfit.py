@@ -1,3 +1,9 @@
+"""
+To train against and evaluate with a certain collections of agents.
+To see if the agent collection is kind or traitors.
+
+"""
+
 import itertools
 from datetime import datetime
 from json import dumps
