@@ -242,6 +242,7 @@ class DeepQLearner(TrainableAgent):
         self._loss += float(loss)
         loss.backward()
 
+        # update network after a batch
         if self._count % self._batch_size == 0:
             self._optimiser.step()
             self._optimiser.zero_grad()

@@ -36,8 +36,7 @@ class Environment:
     ):
         """
         
-        One batch for training a learning based agent.
-        One batch is a match with a rule-based agent in the environment.
+        One match with a rule-based agent in the environment.
 
         Args:
             trainee (TrainableAgent): the learning agent
@@ -90,16 +89,16 @@ class Environment:
     ) -> None:
         """
         The whole training process.
-        Playing a number of tournaments.
+        Playing a number of epochs.
+        One epoch is to match with every other rule-based agents for a number of repetitions.
 
         Args:
             trainee (TrainableAgent): the learning agent
-            Args for tournament
                 Args for match(trainee, opponent):
                     continuation_probability (float): the prob to continue playing match
                     limit (int): the max turns in match
                     noise (float): the prob to mutate one's action.
-                repetitions: the number of full match
+                repetitions: the number of matches against one agent
                 
             epochs (int, optional): number of epochs. Defaults to 1.
         """

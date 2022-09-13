@@ -28,14 +28,14 @@ class MultipleRuleBasedAgentEnvironment(Environment):
     ):
         """
         one epoch for training a learning based agent.
-        one epoch is a tournament of matching with rule-based opponents for a number of repetitions
+        one epoch is matching with every rule-based opponents for a number of repetitions
 
         Args:
             trainee (TrainableAgent): the agent to train
             continuation_probability (float, optional): the probability of continue to play in a match. Defaults to 1.
             limit (int, optional): number of turns of a match. Defaults to 10000.
             noise (float, optional): the probability an agent flip the action. Defaults to 0.
-            repetitions (int, optional): how many matches to play. Defaults to 1.
+            repetitions (int, optional): how many matches to play againest one agent. Defaults to 1.
         """
         
         # randomly pick the opponent until all are seen.
