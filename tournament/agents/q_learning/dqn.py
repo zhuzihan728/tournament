@@ -15,7 +15,7 @@ torch.manual_seed(42)
 class QNetwork(nn.Module):
     """
     set up the network:
-    1-dimensional lookbacks -> (linear -> relu) * 3 -> [C_q_value, D_q_value]
+    lookback tensor => 1-dimensional lookbacks -> (linear -> relu) -> (linear hidden layer + relu)*n -> (linear -> relu) => [C_q_value, D_q_value]
     """
 
     def __init__(self, lookback):
